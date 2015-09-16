@@ -3,21 +3,12 @@ package de.adorsys.amp.camel.gcm;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.Message.Builder;
-import com.google.android.gcm.server.Result;
-import com.google.android.gcm.server.Sender;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -53,34 +44,6 @@ public class GCMService {
 				}
 			}
 		});
-	}
-	
-	public void sendNotification(Map<String, String> data, String registrationId) throws UnknownRegistrationIdException, NotRegisteredException {
-		Sender sender = new Sender(GOOGLE_API_KEY);
-		Builder mb = new Message.Builder()
-		.collapseKey("message")
-		.timeToLive(3)
-		.delayWhileIdle(true);
-		
-		Set<Entry<String, String>> entries = data.entrySet();
-		for (Entry<String, String> entry : entries) {
-			mb.addData(entry.getKey(), entry.getValue());
-		}
-		
-		Message message = mb
-		.build();
-		
-		try {
-			Result result = sender.send(message, registrationId, 3);
-			if ("InvalidRegistration".equals(result.getErrorCodeName())){
-				throw new UnknownRegistrationIdException(registrationId);
-			} else if ("NotRegistered".equals(result.getErrorCodeName())) {
-				throw new NotRegisteredException(registrationId);
-			}
-			LOG.debug(result.toString());
-		} catch (IOException e) {
-			throw new GCMException("Connection problem sending GCM Message", e);
-		}
 	}
 	
 	public void sendNotification2(Map<String, String> data, String... registrationIds) throws UnknownRegistrationIdException, NotRegisteredException {
