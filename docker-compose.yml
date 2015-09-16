@@ -1,0 +1,18 @@
+jboss:
+    image: docker.adorsys.de/adorsys/eap-full
+    ports:
+        - "8080:8080"
+        - "80:80"
+        - "8787:8787"
+        - "9990:9990"
+        - "443:443"
+    expose:
+        - "8787"
+        - "80" 
+        - "8080"
+        - "443"
+    volumes:
+        - ./gcm-server-test/target/gcm-server-test.war:/opt/jboss/standalone/deployments/gcm-server-test.war
+        - /opt/jboss/standalone/configuration
+#        - ./standalone.xml:/opt/wildfly/standalone/configuration/standalone-webrtc.xml
+    command: bash -c "touch /opt/jboss/standalone/deployments/ui.war.dodeploy && /opt/jboss/bin/standalone.sh -Djboss.http.port=80 -Djboss.https.port=443 -b=0.0.0.0 -bmanagement=0.0.0.0 --debug"
