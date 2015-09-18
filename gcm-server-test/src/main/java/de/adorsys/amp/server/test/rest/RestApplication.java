@@ -1,4 +1,4 @@
-package org.gcm.server.test.rest;
+package de.adorsys.amp.server.test.rest;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;

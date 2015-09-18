@@ -24,7 +24,6 @@ public class GCMService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GCMService.class);
 	
-	final String GOOGLE_API_KEY = "AIzaSyAju6wApRVHMXbg7qJ1QpEAYPu3TikPook";
 	private static com.fasterxml.jackson.databind.ObjectMapper OM = new com.fasterxml.jackson.databind.ObjectMapper();
 	
 	static {
@@ -50,7 +49,7 @@ public class GCMService {
 		});
 	}
 	
-	public void sendNotification(Map<String, Object> data, String... registrationIds) throws UnknownRegistrationIdException, NotRegisteredException {
+	public void sendNotification(GCMNotification notification, Map<String, Object> data, String gcmApiKey, String... registrationIds) throws UnknownRegistrationIdException, NotRegisteredException {
 		GCMMessage gcmMessage = new GCMMessage();
 		
 		Map<String, String> converted = new HashMap<>();
@@ -63,14 +62,10 @@ public class GCMService {
 		}
 		gcmMessage.setData(converted);
 		gcmMessage.setRegistrationIds(registrationIds);
-		GCMNotification notification = new GCMNotification();
-		notification.setTitle("My Message");
-		notification.setBody("This is a TAN");
-		notification.setIcon("myicon");
 		gcmMessage.setNotification(notification);
 		try {
 			HttpResponse<GCMResults> results = Unirest.post("https://gcm-http.googleapis.com/gcm/send")
-					  .header("Authorization", "key=" + GOOGLE_API_KEY)
+					  .header("Authorization", "key=" + gcmApiKey)
 					  .header("Content-Type", "application/json")
 					  .header("accept", "application/json")
 					  .body(gcmMessage)
