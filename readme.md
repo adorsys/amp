@@ -6,7 +6,7 @@
  * docker compose is installed
  * maven is installed
  
-## get it runnting
+## get it running
 
  * run ```mvn clean install``` on the base directory
  * run docker-compose up on the base directory
