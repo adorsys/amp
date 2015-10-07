@@ -4,11 +4,86 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.adorsys.amp</groupId>
-	<artifactId>amp</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>amp-parent</artifactId>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:git@github.com:adorsys/amp.git</connection>
+		<developerConnection>scm:git:git@github.com:adorsys/amp.git</developerConnection>
+		<url>git@github.com:adorsys/amp.git</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<inceptionYear>2015</inceptionYear>
+	<developers>
+		<developer>
+			<name>Sandro Sonntag</name>
+			<email>sso@adorsys.de</email>
+			<organization>adorsys</organization>
+			<organizationUrl>https://adorsys.de/</organizationUrl>
+		</developer>
+	</developers>
 	<modules>
-		<module>gcm-client</module>
-		<module>gcm-server-test</module>
+		<module>amp-client</module>
 	</modules>
+	<profiles>
+		<profile>
+			<id>gcm-server-test</id>
+			<modules>
+				<module>amp-server-test</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<configuration>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<distributionManagement>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>

@@ -3,15 +3,38 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.gcm.server.test</groupId>
-	<artifactId>gcm-server-test</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>amp-server-test</artifactId>
 	<packaging>war</packaging>
+	<parent>
+		<groupId>de.adorsys.amp</groupId>
+		<artifactId>amp</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<scm>
+		<connection>scm:git@github.com:adorsys/amp.git</connection>
+		<developerConnection>scm:git:git@github.com:adorsys/amp.git</developerConnection>
+		<url>git@github.com:adorsys/amp.git</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<inceptionYear>2015</inceptionYear>
+	<developers>
+		<developer>
+			<name>Sandro Sonntag</name>
+			<email>sso@adorsys.de</email>
+			<organization>adorsys</organization>
+			<organizationUrl>https://adorsys.de/</organizationUrl>
+		</developer>
+	</developers>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -42,8 +65,8 @@
 		</dependency>
 		<dependency>
 			<groupId>de.adorsys.amp</groupId>
-			<artifactId>gcm.client</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>amp-client</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>

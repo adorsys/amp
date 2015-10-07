@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import de.adorsys.amp.gcm.client.GCMMessage.GCMNotification;
 import de.adorsys.amp.gcm.client.GCMResults.GCMResult;
 
-@ApplicationScoped
+@Singleton
 public class GCMService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GCMService.class);
