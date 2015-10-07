@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.adorsys.amp</groupId>
 	<artifactId>amp-parent</artifactId>
-	<version>0.1</version>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<scm>
