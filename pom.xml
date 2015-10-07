@@ -20,14 +20,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.adorsys.amp</groupId>
 	<artifactId>amp-parent</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2.2</version>
 	<packaging>pom</packaging>
 
 	<scm>
 		<connection>scm:git@github.com:adorsys/amp.git</connection>
 		<developerConnection>scm:git:git@github.com:adorsys/amp.git</developerConnection>
 		<url>git@github.com:adorsys/amp.git</url>
-    <tag>HEAD</tag>
+    <tag>amp-parent-0.2.2</tag>
   </scm>
 	<licenses>
 		<license>
