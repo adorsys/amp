@@ -24,7 +24,7 @@
 	<packaging>war</packaging>
 	<parent>
 		<groupId>de.adorsys.amp</groupId>
-		<artifactId>amp</artifactId>
+		<artifactId>amp-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<properties>
