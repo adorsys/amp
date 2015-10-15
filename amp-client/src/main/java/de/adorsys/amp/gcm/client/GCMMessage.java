@@ -20,7 +20,7 @@ public class GCMMessage {
 		private String title;
 		@JsonInclude(Include.NON_NULL)
 		private String body;
-		private String icon = "myicon";
+		private String icon;
 		@JsonInclude(Include.NON_NULL)
 		private String sound;
 		@JsonInclude(Include.NON_NULL)
