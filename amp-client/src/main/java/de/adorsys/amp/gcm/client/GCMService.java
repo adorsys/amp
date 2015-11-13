@@ -31,8 +31,8 @@ public class GCMService {
 
 	@PostConstruct
 	public void postConstruct() {
-		String proxyHostUrl = System.getProperty("GCM_PROXY_HOST");
-		String proxyPort = System.getProperty("GCM_PROXY_PORT");
+		String proxyHostUrl = getEnv("GCM_PROXY_HOST");
+		String proxyPort = getEnv("GCM_PROXY_PORT");
 
 		if (proxyHostUrl != null) {
 			if (proxyPort != null) {
@@ -103,6 +103,14 @@ public class GCMService {
 		} catch (IOException e) {
 			throw new GCMException("Connection problem sending GCM Message", e);
 		}
+	}
+	
+	private String getEnv(String prop){
+		String env = System.getenv(prop);
+		if(env==null || env.trim().isEmpty()){
+			env = System.getProperty(prop);
+		}
+		return env;
 	}
 
 }
