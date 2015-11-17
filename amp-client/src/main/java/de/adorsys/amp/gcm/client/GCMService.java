@@ -50,7 +50,7 @@ public class GCMService {
 				try {
 					return OM.writeValueAsString(value);
 				} catch (JsonProcessingException e) {
-					throw new GCMException("problem on selialization of " + value);
+					throw new GCMException("problem on serialization of " + value);
 				}
 			}
 
@@ -59,7 +59,7 @@ public class GCMService {
 				try {
 					return OM.readValue(value, valueType);
 				} catch (IOException e) {
-					throw new GCMException("problem on deselialization of " + value);
+					throw new GCMException("problem on deserialization of " + value);
 				}
 			}
 		};
@@ -77,6 +77,8 @@ public class GCMService {
 		}
 		gcmMessage.setData(converted);
 		gcmMessage.setRegistrationIds(registrationIds);
+		gcmMessage.setContentAvailable(true);
+		gcmMessage.setPriority("high");
 		gcmMessage.setNotification(notification);
 
 		HttpPost httpPost = new HttpPost("https://gcm-http.googleapis.com/gcm/send");
@@ -104,10 +106,10 @@ public class GCMService {
 			throw new GCMException("Connection problem sending GCM Message", e);
 		}
 	}
-	
-	private String getEnv(String prop){
+
+	private String getEnv(String prop) {
 		String env = System.getenv(prop);
-		if(env==null || env.trim().isEmpty()){
+		if (env == null || env.trim().isEmpty()) {
 			env = System.getProperty(prop);
 		}
 		return env;
