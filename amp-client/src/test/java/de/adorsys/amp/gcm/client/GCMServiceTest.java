@@ -12,6 +12,7 @@ public class GCMServiceTest {
 	@Test
 	public void testSendNotification() {
 		GCMService gcmService = new GCMService();
+		gcmService.postConstruct();
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("message", "hello world");
 		Booking booking = new Booking();
