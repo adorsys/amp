@@ -22,7 +22,9 @@
 	<artifactId>amp-parent</artifactId>
 	<version>0.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
+	<name>Adorsys Message Push</name>
+	<description>Adorsys Message Push CDI Component</description>
+	<url>https://github.com/adorsys/amp</url>
 	<scm>
 		<connection>scm:git@github.com:adorsys/amp.git</connection>
 		<developerConnection>scm:git:git@github.com:adorsys/amp.git</developerConnection>
