@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.adorsys.amp</groupId>
 	<artifactId>amp-parent</artifactId>
-	<version>0.4</version>
+	<version>0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Adorsys Message Push</name>
 	<description>Adorsys Message Push CDI Component</description>
@@ -29,7 +29,7 @@
 		<connection>scm:git@github.com:adorsys/amp.git</connection>
 		<developerConnection>scm:git:git@github.com:adorsys/amp.git</developerConnection>
 		<url>git@github.com:adorsys/amp.git</url>
-    <tag>amp-parent-0.4</tag>
+    <tag>HEAD</tag>
   </scm>
 	<licenses>
 		<license>
