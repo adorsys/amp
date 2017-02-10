@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.adorsys.amp</groupId>
 		<artifactId>amp-parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.5</version>
 	</parent>
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
