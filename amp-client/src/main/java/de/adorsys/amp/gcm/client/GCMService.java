@@ -14,6 +14,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.HttpResponse;
@@ -25,6 +27,8 @@ import de.adorsys.amp.gcm.client.GCMResults.GCMResult;
 
 @Singleton
 public class GCMService {
+
+	final static Logger LOG = LoggerFactory.getLogger(GCMService.class);
 
 	private HttpHost proxyHost;
 	private ObjectMapper objectMapper;
@@ -67,8 +71,7 @@ public class GCMService {
 		Unirest.setObjectMapper(objectMapper);
 	}
 
-	public void sendNotification(GCMNotification notification, Map<String, Object> data, String gcmApiKey, String... registrationIds)
-			throws UnknownRegistrationIdException, NotRegisteredException {
+	public void sendNotification(GCMNotification notification, Map<String, Object> data, String gcmApiKey, String... registrationIds) throws UnknownRegistrationIdException, NotRegisteredException {
 		GCMMessage gcmMessage = new GCMMessage();
 
 		Map<String, String> converted = new HashMap<>();
@@ -87,19 +90,30 @@ public class GCMService {
 		httpPost.addHeader("accept", "application/json");
 		httpPost.setEntity(new StringEntity(objectMapper.writeValue(gcmMessage), "UTF-8"));
 
-		try (CloseableHttpClient httpClient = HttpClients.custom().setProxy(proxyHost).build();
-				CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpPost);) {
+		try (CloseableHttpClient httpClient = HttpClients.custom().setProxy(proxyHost).build(); CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpPost);) {
 
 			HttpResponse<GCMResults> results = new HttpResponse<>(closeableHttpResponse, GCMResults.class);
 
-			// HttpResponse<GCMResults> results = Unirest.post("https://gcm-http.googleapis.com/gcm/send").header("Authorization", "key=" + gcmApiKey)
-			// .header("Content-Type", "application/json").header("accept", "application/json").body(gcmMessage).asObject(GCMResults.class);
+			// HttpResponse<GCMResults> results =
+			// Unirest.post("https://gcm-http.googleapis.com/gcm/send").header("Authorization",
+			// "key=" + gcmApiKey)
+			// .header("Content-Type", "application/json").header("accept",
+			// "application/json").body(gcmMessage).asObject(GCMResults.class);
 			List<GCMResult> resultList = results.getBody().getResults();
 			for (GCMResult gcmResult : resultList) {
+
 				if ("InvalidRegistration".equals(gcmResult.getError())) {
-					throw new UnknownRegistrationIdException(registrationIds[0]);
+					throw new UnknownRegistrationIdException(registrationIds[0], gcmResult.getMessageId());
 				} else if ("NotRegistered".equals(gcmResult.getError())) {
-					throw new NotRegisteredException(registrationIds[0]);
+					throw new NotRegisteredException(registrationIds[0], gcmResult.getMessageId());
+				} else {
+					if (gcmResult.getError() == null || "".equals(gcmResult.getError().trim())) {
+						LOG.info(String.format("Sending GCM Message successfully. MESSAGE ID: %s.", gcmResult.getMessageId()));
+					} else {
+						String message = String.format("Problem when sending GCM Message. MESSAGE ID: %s, ERROR:%s ", gcmResult.getMessageId(), gcmResult.getError());
+						LOG.error(message);
+						throw new GCMException(message);
+					}
 				}
 			}
 		} catch (IOException e) {
