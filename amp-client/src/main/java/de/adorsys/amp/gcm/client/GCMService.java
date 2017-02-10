@@ -94,26 +94,18 @@ public class GCMService {
 
 			HttpResponse<GCMResults> results = new HttpResponse<>(closeableHttpResponse, GCMResults.class);
 
-			// HttpResponse<GCMResults> results =
-			// Unirest.post("https://gcm-http.googleapis.com/gcm/send").header("Authorization",
-			// "key=" + gcmApiKey)
-			// .header("Content-Type", "application/json").header("accept",
-			// "application/json").body(gcmMessage).asObject(GCMResults.class);
+			// HttpResponse<GCMResults> results = Unirest.post("https://gcm-http.googleapis.com/gcm/send").header("Authorization", "key=" + gcmApiKey)
+			// .header("Content-Type", "application/json").header("accept", "application/json").body(gcmMessage).asObject(GCMResults.class);
+
+			// Dump Body
+			LOG.info(results.getBody().toString());
+			
 			List<GCMResult> resultList = results.getBody().getResults();
 			for (GCMResult gcmResult : resultList) {
-
 				if ("InvalidRegistration".equals(gcmResult.getError())) {
 					throw new UnknownRegistrationIdException(registrationIds[0], gcmResult.getMessageId());
 				} else if ("NotRegistered".equals(gcmResult.getError())) {
 					throw new NotRegisteredException(registrationIds[0], gcmResult.getMessageId());
-				} else {
-					if (gcmResult.getError() == null || "".equals(gcmResult.getError().trim())) {
-						LOG.info(String.format("Sending GCM Message successfully. MESSAGE ID: %s.", gcmResult.getMessageId()));
-					} else {
-						String message = String.format("Problem when sending GCM Message. MESSAGE ID: %s, ERROR:%s ", gcmResult.getMessageId(), gcmResult.getError());
-						LOG.error(message);
-						throw new GCMException(message);
-					}
 				}
 			}
 		} catch (IOException e) {

@@ -26,6 +26,13 @@ public class UnknownRegistrationIdException extends Exception {
 		this.messageId = messageId;
 	}
 
+	@Deprecated
+	public UnknownRegistrationIdException(String registrationId) {
+		super();
+		this.registrationId = registrationId;
+		this.messageId = null;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + ", REGISTRATION ID= " + registrationId + ", MESSAGE ID= " + messageId;
